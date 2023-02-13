@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+//import { useState, useEffect } from 'react';
+import { Link, useLoaderData, useSearchParams } from 'react-router-dom';
 import { BlogFilter } from '../components/BlogFilter';
 
 const Blogpage = () => {
-  const [posts, setPosts] = useState([]);
+  //const [posts, setPosts] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const posts = useLoaderData(); //хук который достает посты из лоадера
   const postQuery = searchParams.get('post') || '';
   const latest = searchParams.has('latest');
 
   const startsFrom = latest ? 80 : 1;
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  }, []);
+  // useEffect(() => { // эта фунция нужна если нет функции лоадера
+  //   fetch('https://jsonplaceholder.typicode.com/posts') // делает запрос
+  //     .then((res) => res.json()) // разбирает данные
+  //     .then((data) => setPosts(data)); //полученные данные направляет в стейт
+  // }, []);
 
   return (
     <div>
@@ -46,5 +46,9 @@ const Blogpage = () => {
     </div>
   );
 };
-
-export { Blogpage };
+const blogloader = async ({ request, params }) => {
+  console.log({ request, params });
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts'); // делает запрос
+  return res.json(); // разбирает данные
+};
+export { Blogpage, blogloader };

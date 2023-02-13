@@ -9,8 +9,8 @@ const root = ReactDOMClient.createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    {/* <BrowserRouter> // поскольку в Арр используется createBrouserRouter */}
+    <App />
+    {/* </BrowserRouter> */}
   </StrictMode>
 );
